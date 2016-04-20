@@ -3,8 +3,7 @@ function opt = process_data(opt)
 light_x = opt.light_vec(:, 1);
 light_y = opt.light_vec(:, 2);
 light_z = opt.light_vec(:, 3);
-
-subdivied_surface = icosahedron_sample();
+% iteratively subdivde surface 4 (default) times
+vertices = icosahedron_sample(4);
 
 end
-
