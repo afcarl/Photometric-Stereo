@@ -4,7 +4,7 @@ function opt = process_data(opt)
 % iteratively subdivde surface 4 (default) times
 vertices = icosahedron_sample(4);
 % get only points in half plane (light direction plane)
-vertices = vertices(find(vertices(:, 3) >= 0), :);
+vertices = vertices(vertices(:, 3) >= 0, :);
 
 % Algorithm:
 % for each one vertex, seek the nearest light direction
@@ -32,5 +32,13 @@ for i = 1:direction_num
   image_buffer = uint8(image_buffer / weight_sum);
   imwrite(image_buffer, [opt.cache_path 'image' num2str(i) '.bmp']);
 end
+
+light_vec = opt.light_vec(IDX, :);
+save([opt.cache_path 'light_vec.mat'], 'light_vec');
+
+all_images = dir([opt.cache_path '/*.bmp']);
+opt.image_names = {all_images.name};
+opt.image_num = length(opt.image_names);
+opt.light_vec = light_vec;
 
 end

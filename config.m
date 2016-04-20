@@ -4,7 +4,7 @@ addpath(genpath('./src/'));
 
 opt.root = './';
 opt.data_path = [opt.root 'data/data02/'];
-opt.cache_path = [opt.data_path 'cache/'];
+opt.cache_path = [opt.data_path 'resampled/'];
 mkdir_if_missing(opt.cache_path);
 % get list names by dir command
 all_images = dir([data_path '/*.bmp']);
