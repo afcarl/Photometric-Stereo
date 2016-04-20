@@ -30,7 +30,8 @@ for i = 1:direction_num
     weight_sum = weight_sum + image_weight;
   end
   image_buffer = uint8(image_buffer / weight_sum);
-  imwrite(image_buffer, [opt.cache_path 'image' num2str(i) '.bmp']);
+  grey_image = rgb2gray(image_buffer);
+  imwrite(grey_image, [opt.cache_path 'image' num2str(i) '.bmp']);
 end
 
 light_vec = opt.light_vec(IDX, :);
