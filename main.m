@@ -13,4 +13,5 @@ else
   process_data(opt);
 end
 
-denominator_image = calculate_denominator(opt);\
+[denominator_ind, image_buffer] = calculate_denominator(opt);
+norm_matrix = estimate_norm(denominator_ind, image_buffer, opt);

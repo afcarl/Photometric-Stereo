@@ -1,4 +1,4 @@
-function denominator_image = calculate_denominator(opt)
+function [denominator_ind, image_buffer] = calculate_denominator(opt)
 
 % Motivation:
 % we want to choose an image to cancel out the surface albedo
@@ -38,8 +38,6 @@ end
 % with H, and we can direclty take max value among kr_matrix, which already
 % satisfy the H threshold
 kr_matrix = k_matrix .* (r_matrix < H);
-[~, ind] = max(kr_matrix);
-
-denominator_image = image_buffer(:,:,ind);
+[~, denominator_ind] = max(kr_matrix);
 
 end
