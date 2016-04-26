@@ -32,9 +32,8 @@ for i = 1:opt.image_num
 end
 
 for i = 1:direction_num
-  I = image_buffer(:,:,:,i);
-  I = rgb2gray(I / weight_sum(i));
-  imwrite(I, [opt.cache_path 'image' num2str(i) '.bmp']);
+  I = image_buffer(:,:,:,i) / weight_sum(i);
+  imwrite(I/255, [opt.cache_path 'image' num2str(i) '.bmp']);
 end
 
 light_vec = opt.light_vec(unique_ind, :);

@@ -7,11 +7,11 @@ function [denominator_ind, image_buffer] = calculate_denominator(opt)
 % over all sampled images
 
 I = imread([opt.cache_path, opt.image_names{1}]);
-[image_height, image_width] = size(I);
+[image_height, image_width, ~] = size(I);
 image_buffer = zeros(image_height, image_width, opt.image_num);
 
 for i = 1:opt.image_num
-  image_buffer(:,:,i) = imread([opt.cache_path opt.image_names{i}]);
+  image_buffer(:,:,i) = rgb2gray(imread([opt.cache_path opt.image_names{i}]));
 end
 
 rank_matrix = uint8(zeros(size(image_buffer)));
@@ -42,4 +42,3 @@ kr_matrix = k_matrix .* (r_matrix < H);
 [~, denominator_ind] = max(kr_matrix);
 
 end
-
