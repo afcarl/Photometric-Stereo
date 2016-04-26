@@ -1,25 +1,30 @@
-function [denominator_ind, image_buffer] = calculate_denominator(opt)
+function [denominator_ind, image_buffer] = calculate_denominator(opt, rgb_buffer)
 
 % Motivation:
-% we want to choose an image to cancel out the surface albedo
+%   we want to choose an image to cancel out the surface albedo
+%
 % Algorithm:
-% for each pixel location (i, j), sort corresponding pixel intensities
-% over all sampled images
+%   for each pixel location (i, j), sort corresponding pixel intensities
+%   over all sampled images
 
-I = imread([opt.cache_path, opt.image_names{1}]);
-[image_height, image_width, ~] = size(I);
+[image_height, image_width, ~, ~] = size(rgb_buffer);
 image_buffer = zeros(image_height, image_width, opt.image_num);
 
+% we direct multiply here to avoid dividing 255 on rgb_buffer
+% which is unnecessary to multiply back
 for i = 1:opt.image_num
-  image_buffer(:,:,i) = rgb2gray(imread([opt.cache_path opt.image_names{i}]));
+  image_buffer(:,:,i) = 0.2989 * rgb_buffer(:,:,1,i) + ...
+    0.5870 * rgb_buffer(:,:,2,i) + 0.1140 * rgb_buffer(:,:,3,i);
 end
 
-rank_matrix = uint8(zeros(size(image_buffer)));
+rank_matrix = zeros(size(image_buffer));
+assignment = zeros(opt.image_num, 1);
 for i = 1:image_width
   for j = 1:image_height
     pixels = squeeze(image_buffer(j, i, :));
     [~, inds] = sort(pixels);
-    rank_matrix(j, i, :) = inds;
+    assignment(inds) = 1:opt.image_num;
+    rank_matrix(j, i, :) = assignment;
   end
 end
 

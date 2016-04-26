@@ -32,16 +32,12 @@ for i = 1:opt.image_num
 end
 
 for i = 1:direction_num
-  I = image_buffer(:,:,:,i) / weight_sum(i);
-  imwrite(I/255, [opt.cache_path 'image' num2str(i) '.bmp']);
+  image_buffer(:,:,:,i) = image_buffer(:,:,:,i) / weight_sum(i);
 end
 
-light_vec = opt.light_vec(unique_ind, :);
-save([opt.cache_path 'light_vec.mat'], 'light_vec');
+light_vec = vertices(unique_ind, :);
 
-all_images = dir([opt.cache_path '/*.bmp']);
-opt.image_names = {all_images.name};
-opt.image_num = length(opt.image_names);
+opt.image_num = direction_num;
 opt.light_vec = light_vec;
 
 end
