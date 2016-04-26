@@ -13,13 +13,11 @@ tilt = zeros(map_height, map_width);
 
 for i = 1:map_height
   for j = 1:map_width
-    x = norm_matrix(i, j, 1);
-    y = norm_matrix(i, j, 2);
-    z = norm_matrix(i, j, 3);
+    % note need to figure out why we need different coordinate system
+    vec = squeeze(norm_matrix(map_height+1-i, j, :));
+    x = vec(1); y = vec(2); z = vec(3);
     dzdx = -x / z; dzdy = -y / z;
-    [a,b] = grad2slanttilt(dzdx, dzdy);
-    slant(i,j) = a;
-    tilt(i, j) = b;
+    [slant(i,j), tilt(i,j)] = grad2slanttilt(dzdx,dzdy);
   end
 end
 
