@@ -1,6 +1,7 @@
 function opt = config(data_path)
 
 addpath(genpath('./src/'));
+addpath(genpath('./lib/'));
 
 opt.root = './';
 opt.data_path = [opt.root 'data/data02/'];
